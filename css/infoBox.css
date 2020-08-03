@@ -1,0 +1,26 @@
+/* Shows status info */
+#infoBox{
+	display:none;
+	position:absolute;
+	top:1%;
+	left:10px;
+	color:white;
+	background-color: black;
+	padding:20px;
+	border-radius:20px;
+	z-index:999999999999;
+}
+
+.close-span{
+	position:absolute;
+	top:1%.close-span;
+	right:20px;
+}
+
+.close-span:hover{
+	cursor:pointer;
+}
+
+.red{
+	color:red;
+}

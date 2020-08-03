@@ -1,0 +1,156 @@
+#map {  margin:0 auto; box-shadow: 10px 10px;}
+
+/* MapBox GL JS marker style */
+.marker {
+  background-image: url('../images/marker.png'); /* marker image*/
+  background-size: cover;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+ 
+}
+
+/* MapBox GL JS marker pop-up style */
+.mapboxgl-popup {
+  max-width: 200px;
+}
+
+.mapboxgl-popup-content {
+  text-align: center;
+  font-family: 'Open Sans', sans-serif;
+}
+/* END MapBox GL JS pop-up style */
+
+.info{margin-top:40px;}
+
+
+/* CSS for marker on click */
+
+.marker-clicked {
+  background-image: url('../images/marker_green.jpg'); /* marker image*/
+  background-size: cover;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+ 
+}
+
+
+div.bordered:empty { 
+    border: none;
+}
+
+.bordered{
+	border: 1px solid grey;
+	border-radius:20px;
+	margin-top:25px;
+	padding: 10px;	
+}
+
+
+#matrixWindow{margin-top:160px;}
+
+
+ /* Class that sets background-image */
+.head-style{
+	
+	color:white;
+	background-color:lavender;padding:10px;
+	/*background-image: url('../images/pattern2.png');*/  
+	text-shadow: 1px 1px 2px black, 0 0 1em red; /* Shadow params */
+	/* background-image: linear-gradient(120deg, #f093fb 0%, #f5576c 100%); */
+	
+	-webkit-transition: all 1.5s ease;
+    -moz-transition: all 1.5s ease;
+    -o-transition: all 1.5s ease;
+     transition: all 1.5s ease;
+}
+
+/* in header-> from: to: span (in header) */
+.start-end-info{
+	border:1px solid white; font-size:10px;padding:3px;
+}
+
+/* {X} icon to clear from: to: span */
+#clearArray{margin-left:1%;margin-right:0,1%;cursor:pointer;}
+
+#ETA{width:80%; margin-left:8%; text-shadow: 1px 1px 2px green; /* Shadow params */}
+
+
+
+/* Tech info div */
+#techInfo{word-break:break-all;} /*breaks the line so it does not overlap div space*/
+
+
+.img-small{width:40%;}
+
+
+/* X span to close <div id="ETA"> */
+.close-eta{margin-left:5px; cursor:pointer; color:black; border:1px solid black; font-size:0.8em; padding:3px;}
+
+/* Dropdown <select> of markers list */
+#markerDropdown{position:relative; right:0px; bottom:0px;color:black;font-size:1em;margin-top:1em;}
+
+
+.footer {
+  /* position: absolute; */
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  background-color: #efefef; /* #2ba6cb; */
+  text-align: center;  
+}
+
+
+/*  Show/hide markers  link at top right */
+.upload{
+	position:absolute;
+	right: 5%;
+	top:0.5em;
+	cursor:pointer;
+	font-size:1em;
+	text-color:white;
+}
+
+/* Mobile */
+@media screen and (max-width: 460px) {  
+.upload{right: 17%;} 
+}
+.upload a{ color:white;}
+
+
+/* Fix for IOS, when JS cick does not work in Safari*/
+.iphoneX{
+	cursor:pointer;
+}
+
+
+
+
+
+
+/* --------------------------- Social Media Buttons  https://www.w3schools.com/howto/howto_css_social_media_buttons.asp  -------------*/
+/* Style all font awesome icons */
+.fa-my {
+ padding: 20px;
+  font-size: 3em;
+  width: 3em;
+  text-align: center;
+  text-decoration: none;
+  margin: 5px 2px;
+}
+
+/* Add a hover effect if you want */
+.fa:hover {
+  opacity: 0.7;
+}
+
+/* Set a specific color for each brand */
+.fa-folder-open-o {
+  background: #00aff0;
+  color: white;
+  border:1px solid grey;
+}

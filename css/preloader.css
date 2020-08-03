@@ -1,0 +1,40 @@
+/* Shows preloader when saving*/
+
+
+/* Blurs the screen */
+.blur{
+	transition-duration: 0s;
+	-moz-filter: blur(15px);
+     -ms-filte.blurr: blur(15px);
+     -o-filter: blur(15px);
+     -webkit-filter: blur(15px);
+     filter: blur(15px);
+	}
+		
+	
+	
+	
+/* gif for loading */
+.error-parent{
+	display:none;
+	position:absolute;
+	top:16em; left:44%;
+	overflow:hidden; /* no scroll to shake page */
+	} 
+
+.error-img{width:90%;}
+
+	
+/*  ----------------Mobile */
+@media screen and (max-width: 640px) {
+	.error-parent{top:14em; left:20%;}
+	.error-img{width:99%;}
+    #save_delete_text{color:black;}
+}  
+ 
+/*  ----------------Mobile */
+
+
+#save_delete_text{
+	margin-left:30%;
+}
