@@ -50,7 +50,8 @@
        <div id="headX" class="jumbotron text-center gradient alert-success my-background head-style" style ='background-color:#2ba6cb;'> <!--#2ba6cb;-->
          <h1 id="h1Text"> <span id="textChange"> Test Locations</span></h1>
 		 <p style='font-size:0.8em;margin-top:2em;'>Все места (Hovested, Sjælland, Syddanmark, Midtjylland, Nordjylland) можно увидеть в списке Select или уменьшив масштаб</p>
-         <span id="start_end_direction_info"></span> <!-- start/end coordinates for direction API-->	
+         <p><button class="btn"><a class="geo-panel-link" href="Geocoding_process/index.php">Go to Geocode panel </a></button></p>
+		 <span id="start_end_direction_info"></span> <!-- start/end coordinates for direction API-->	
          
 		  <!-- SELECT Dropdown for markers -->
           <p id="markerDropdown"></p>	
@@ -73,7 +74,7 @@
 				      <!-------------- Mapbox main window ------------->
 				          <div class="col-sm-12 col-xs-12" id="">
 						      <div id='ETA' class="col-sm-6 col-xs-6"></div>  <!---- ETA hidden window ------>
-						      <div id='map' style='width: 80%; height: 400px;'></div> <!-- Maps Window goes here -->
+						      <div id='map' style='width: 80%; height: 400px;'></div> <!-- Maps Window goes here allow="geolocation"-->
 							  <pre id='info'></pre> <!-- Mouse coords go here -->
 				          </div>
 				          <br><br><br>

@@ -21,7 +21,7 @@ var DIRECTION_MODE = false;	 //mine, activated in checkbox switch top left
 	
 //Access api key is in Credentials/api_access_token!!!!
 //Creats map with center
-/*var*/ map = new mapboxgl.Map({
+ map = new mapboxgl.Map({
 container: 'map', // container id
 center: [12.592224, 55.679681], // starting position [lng, lat] 
 zoom: 9, // starting zoom
@@ -35,18 +35,19 @@ map.addControl(new mapboxgl.NavigationControl());
 
 
 
-//Geolocation button control to add to map
+//Geolocation button control to add to map. It DOES NOT WORK as => Geolocation support for modern browsers including Chrome requires sites to be served over HTTPS.If geolocation support is not available, the GeolocateControl will not be visible.
 map.addControl(new mapboxgl.GeolocateControl({
     positionOptions: {
         enableHighAccuracy: true
     },
     trackUserLocation: true,  //If  true the Geolocate Control becomes a toggle button and when active the map will receive updates to the user's location as it changes. I.e monitors when user changes location
-    showUserLocation: true //by default it is true, show a dot where the user's location is
+    //showUserLocation: true //by default it is true, show a dot where the user's location is
 	}));
 //END Geolocation button control to add to map
 
 
-//markers object 
+//hard-Coded hand-made markers object 
+/*
 var data = {
   type: 'FeatureCollection',
   features: [
@@ -141,6 +142,35 @@ var data = {
   ]
 };
 
+console.log(data);
+*/
+
+
+//ajax to get coords from Slave Excel file 
+		$.ajax({
+            url: 'ajax/getCoordsListFromSlaveExcel.php',//my ajax url 
+            type: 'POST',
+			dataType: 'JSON', // without this it returned string(that can be alerted), now it returns object
+			//passing the city
+            data: { 
+			    //serverCity:window.cityX
+			},
+            success: function(data) {
+				alert('Loading markers was OK');
+				console.log(data);
+				
+				createObject_dataConvert(data);
+				convert_Dataset_to_map(dataConvert);
+				
+            },  //end success
+			error: function (error) {
+				
+			   alert('Loading mrkers failed');
+
+            }	
+        });
+		
+		
 
 //getting Dataset markers values from Dataset(initial several markers are created in Studio manually)
 // **************************************************************************************
@@ -164,17 +194,31 @@ gets_Dataset_features_from_API = function(){ //we use here Function Expression t
 
 
 //calls the function; we use here Function Expression to pass the name of the function(declared here outside IIFE) to a different js script (js/add_marker.js)
-gets_Dataset_features_from_API();
+//gets_Dataset_features_from_API();
+
+
+//object to hold geo data from Excel file
+var dataConvert = {type: "FeatureCollection",features:[]};
+//adds a startting point
+dataConvert.features.push( {type: 'Feature', geometry: {type: 'Point', coordinates:[12.592224, 55.679681]},  properties: {title: 'Точка А', description: 'Copenhagen'}});
 
 
 
+function createObject_dataConvert(dataFromSuccessAjax){
+	//Object.assign(dataConvert.features, dataFromSuccessAjax /*['a','b','c']*/);
+	for( i = 0; i < dataFromSuccessAjax.length; i++){
+		var coorddd = dataFromSuccessAjax[i].geometry.coordinates;
+		//var t = JSON.stringify(coorddd);
+		//var coordsF = t.split(",");
+		//alert (coorddd[0]);
+		dataConvert.features.push( {type: 'Feature', geometry: {type: 'Point', coordinates:coorddd },  properties: {title: dataFromSuccessAjax[i].properties.title, description: dataFromSuccessAjax[i].properties.description}});
+		//dataConvert.features[] = {type: 'Feature', geometry: {type: 'Point', coordinates:coorddd},  properties: {title: 'Точка А (Отправка)', description: 'Copenhagen'}};
+	}
+	console.log(dataConvert);
+}
 
 
-
-
-
-
-
+         
 
 
 //function to convert data received from Dataset to markers on map

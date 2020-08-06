@@ -154,3 +154,6 @@ div.bordered:empty {
   color: white;
   border:1px solid grey;
 }
+
+.geo-panel-link{
+    style="font-size:0.8em; color:white}
