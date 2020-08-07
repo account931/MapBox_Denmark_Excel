@@ -2,6 +2,8 @@
 //Works In normal mode (when checkbox is off), creates a route line between 2 points, u have to click on empty map or marker and select "Add to route". When 2 points are selected the route will be drawn + ETA will be displayed.
 
 
+//https://docs.mapbox.com/mapbox-gl-js/example/mapbox-gl-directions/ !!!!!!!
+
 var map; //coords of clicked place ???
 var popuppZ;//global from mapbox_store_location.js
 
@@ -11,7 +13,7 @@ var popuppZ;//global from mapbox_store_location.js
 	
 	
 	
-	
+	//nOT USED HERE????????
     //When u click at any empty space at map & then click "add to route" in any temporary pop-up or click "Add to route" in marker from Dataset API
     // **************************************************************************************
     // **************************************************************************************
@@ -121,7 +123,7 @@ var popuppZ;//global from mapbox_store_location.js
 
 
 
-
+     //NOT USED HERE?????????
     //Clears "From:" and "To:" fields in info window in the header + clears ETA + clears Direction layer
 	// **************************************************************************************
     // **************************************************************************************
@@ -164,7 +166,7 @@ var popuppZ;//global from mapbox_store_location.js
 	 
 	 
 	 
-	 
+	 //NOT USED HERE???????
 	//Just bundle function to run getRoute(). It must be run 2 times in order to draw a line between 2 points
 	// **************************************************************************************
     // **************************************************************************************
@@ -184,16 +186,16 @@ var popuppZ;//global from mapbox_store_location.js
 	 
 	 
 	 
+	
 	 
 	 
 	 
-	 
-	//  --- NEW ----
+	//  --- NEW MapBox Denmark ---------------
 
 	 
 //======================================= DIRECTION API ========================================================================
-// create a function to make a directions request
-function getRoute(startX, end) {
+// core function that smake a directions Api request and draw route, docs => https://docs.mapbox.com/help/tutorials/getting-started-directions-api/
+function getRoute(startX, end) { //start, end coords. According to start and end coords, API returns array of coords to draw route, i.e array[ [lat,lon], [lat,lon], [lat,lon] ]
 	
 	
   // make a directions request using cycling profile
@@ -238,8 +240,9 @@ function getRoute(startX, end) {
 	
 	 //removes prev marker pop-up if it was set by click + removes prev marker if it was set by click //function from js/mapbox_store_location.js
 	 removeMarker_and_Popup();
+	 
 	
-	
+	/*
     var geojson = {
       type: 'Feature',
       properties: {},
@@ -248,6 +251,7 @@ function getRoute(startX, end) {
         coordinates: route //Found coordinates
       }
     };
+	
     // if the route already exists on the map, reset it using setData
     if (map.getSource('route')) {
       map.getSource('route').setData(geojson);
@@ -276,13 +280,51 @@ function getRoute(startX, end) {
           'line-opacity': 0.75
         }
       });
-    }
+    } */
     // add turn instructions here at the end
+	
+	
+	
+	
+	
+	
+	
+	//Draw LineString, 2020**************************
+	map.addSource('route', {
+'type': 'geojson',
+'data': {
+'type': 'Feature',
+'properties': {},
+'geometry': {
+'type': 'LineString',
+'coordinates': myAjaxCoords
+}
+}
+});
+map.addLayer({
+'id': 'route',
+'type': 'line',
+'source': 'route',
+'layout': {
+'line-join': 'round',
+'line-cap': 'round'
+},
+'paint': {
+'line-color': '#888',
+'line-width': 8
+}
+});
+	//
+//Draw LineString, 2020**************************
+	
   };
+  
+  
   req.send();
   
   
-  //aaaaaaaaaaa
+  //aaaaaaaaaaa  Display on map end point icon ?????
+  /*
   var canvas = map.getCanvasContainer();
       canvas.style.cursor = '';
 	
@@ -311,7 +353,7 @@ function getRoute(startX, end) {
                   'circle-color': '#f30'
               }
          });
-     }
+     } */
   // end aaaaaa
   
   
@@ -327,19 +369,97 @@ function getRoute(startX, end) {
 }
 	 
 	 
-//======================================= DIRECTION API ========================================================================	 
+//======================================= DIRECTION API ========================================================================	
+
+
+ 
 	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
+//dataConvert is global scope var from js/mapbox_store_location.js. To be in global scope must be out of IIFE there
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+//draw route LineString bassed on multiple coords array in arg, 
+// core function that make a directions Api request and draw route, docs => https://docs.mapbox.com/help/tutorials/getting-started-directions-api/
+function getRouteMultiplesCoods(arrayX){  //arrayX is array in format[ [lat,lon], [lat,lon], [lat,lon] ]
+ 
+  var coordsHolder = ''; //holds a string of all coord separated by ";", ie 'lat1,lon1;lat2,lon2', e.g. '-84.5186,39.134;-84.51,39.102'
+  for(i = 0; i < arrayX.length; i++){
+	  coordsHolder = coordsHolder + arrayX[i][0] + "," + arrayX[i][1] + ";";
+  }
+
+  console.log(coordsHolder);
+  
+  var url = 'https://api.mapbox.com/directions/v5/mapbox/driving/' + coordsHolder + '?steps=true&geometries=geojson&access_token=' + mapboxgl.accessToken; // //mapboxgl.accessToken is from Credentials/api-access_token.js
+
+  console.log(url); 
+  
+  // make an XHR request https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest
+  var req = new XMLHttpRequest();
+  req.responseType = 'json';
+  req.open('GET', url, true);
+  req.onload = function() {
+    var data = req.response.routes[0];
+    var route = data.geometry.coordinates;
+	alert(route); //COORDINATES!!!
+	
+
+	
+	 //removes prev marker pop-up if it was set by click + removes prev marker if it was set by click //function from js/mapbox_store_location.js
+	 removeMarker_and_Popup();
 	 
 
-	  // **************************************************************************************
+	
+	//Draw LineString, 2020**************************
+	map.addSource('route', {
+'type': 'geojson',
+'data': {
+'type': 'Feature',
+'properties': {},
+'geometry': {
+'type': 'LineString',
+'coordinates': myAjaxCoords
+}
+}
+});
+map.addLayer({
+'id': 'route',
+'type': 'line',
+'source': 'route',
+'layout': {
+'line-join': 'round',
+'line-cap': 'round'
+},
+'paint': {
+'line-color': '#888',
+'line-width': 8
+}
+});
+	//
+//Draw LineString, 2020**************************
+	
+  };
+  
+  
+  req.send();
+  
+
+}	
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+     //when u click Button "Show route"
+	 // **************************************************************************************
     // **************************************************************************************
     //                                                                                     ** 
 	$("#LineStringShowHide").click(function() {  
@@ -349,10 +469,22 @@ function getRoute(startX, end) {
 			 $("#LineStringShowHide").attr('value', 'Hide Route Line');
 			 map.flyTo({/*center: e.features[0].geometry.coordinates,*/ zoom:7});
 			 
-			 var startZ = [12.592224, 55.679681]; 
+			 var startZ = [12.592224, 55.679681];  // NOT USED????
              var endZ = [11.720648, 55.466004];	 
-             getRoute(startZ, endZ);
-             getRoute(startZ, endZ);			 
+             //getRoute(startZ, endZ);
+			 
+			 //dataConvert is global scope var from js/mapbox_store_location.js. Stores all markers from excel file {Geocoding_Process_Module/Slave_data.xlsx}. To be in global scope must be out of IIFE there
+             var arrayXX = []; //arrayXX is array in format[ [lat,lon], [lat,lon], [lat,lon] ]. Converted from var dataConvert. dataConvert is global scope var from js/mapbox_store_location.js. Stores all markers from excel file {Geocoding_Process_Module/Slave_data.xlsx}. To be in global scope must be out of IIFE there
+
+			 //itearte over  var dataConvert
+			  dataConvert.features.forEach(function(marker, idx) {
+				  arrayXX.push(marker.geometry.coordinates);
+			  });
+			 console.log(arrayXX);
+			 
+			 getRouteMultiplesCoods(arrayXX); //2020 variant-> //draw route LineString bassed on multiple coords array in arg
+
+             //getRoute(startZ, endZ);			 
 	 
 
         } else {

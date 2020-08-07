@@ -4,15 +4,13 @@
   $(document).ready(function(){
 
 	
-	
-	
 	//
 	// **************************************************************************************
     // **************************************************************************************
     //                                                                                     ** 
 
 	$(document).on("click", '#startGeocode', function() {   // this click is used to react to newly generated cicles;
-	    $('.error-parent').show();
+	    $('.error-parent').show(); //show gif loader
 		$('.App').addClass('blur');  //blur the background
 		$('#processe_text').html('Geocoding, please wait');
 		
@@ -27,7 +25,7 @@
 			},
             success: function(data) {
 				setTimeout(function(){
-				    $('.error-parent').hide(800);
+				    $('.error-parent').hide(800); //hide gif loader
 		            $('.App').removeClass('blur');  //blur the background
                     swal("Success", "Geocoding is done successfuly", "success");
 					$('#ajaxResults').stop().fadeOut("slow",function(){ $(this).html(data)}).fadeIn(2000);
@@ -38,7 +36,7 @@
 			error: function (error) {
 				$('.error-parent').hide(800);
 		        $('.App').removeClass('blur');  //blur the background
-				swal("Failed!", "There happens an error", "warning");
+				swal("Failed!", "There happens an error. Check if cURL is installed or make sure your Excel files are closed(therefor may prevent reading)", "warning");
 				$('#ajaxResults').stop().fadeOut("slow",function(){ $(this).html('Geocoding Failed')}).fadeIn(2000);
 
             }	

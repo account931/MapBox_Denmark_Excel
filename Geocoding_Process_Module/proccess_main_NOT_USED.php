@@ -5,8 +5,13 @@ error_reporting(E_ALL);
 //uses https://github.com/shuchkin/simplexlsx to read Excel files
 include "../Library/SimpleXLSX.php";
 
+//uses https://github.com/shuchkin/simplexlsxgen to write Excel files
+include "../Library/SimpleXLSXGen.php";
+
 //MapBox Api keys
 include "../Credentials/php_api_credentials/api_credentials.php";
+
+$text = '';
 
 
 //********************************************************************************************
@@ -92,8 +97,9 @@ if (file_exists($file)) {
 //'Slave_data.xls' MUST BE CLOSED or u'll get "fopen failed to open stream: Permission denied"
 if ( $xlsx = SimpleXLSX::parse('../excel_file.xlsx') ) {
     $masterExceldata =$xlsx->rows();   //gets the Master Excel file data via SimpleXLSX.php Library
-    $fp = fopen('Slave_data.xls', 'w+');
+    //$fp = fopen('Slave_data.xls', 'w+');
 
+	$newData = array();
 	$i = 0;
     foreach ($masterExceldata as $fields) {
 		if($i != 0){ //skip header
@@ -151,12 +157,18 @@ if ( $xlsx = SimpleXLSX::parse('../excel_file.xlsx') ) {
 			
 			
 			//data.features[0].center[1]
-            fputcsv($fp, array($address1, $finalCoords ), "\t", '"'); //puts to Slave Excel file column 2,3  from Master Excel file
+            //fputcsv($fp, array($address1, $finalCoords ), "\t", '"'); //puts to Slave Excel file column 2,3  from Master Excel file
+			array_push($newData, array($address1, $finalCoords));
 		}
 		    $i++;
     }
 
-    fclose($fp);
+	 
+	 //Save/write data to slave Excel file  with SimpleXLSXGen Library 
+	$xlsxG = SimpleXLSXGen::fromArray($newData );
+    $xlsxG->saveAs('Slave_data.xlsx');
+	
+    //fclose($fp);
 	echo "<p>Master Excel file data succesfully copied to Slave Excel " . date("Y-m-d") . " at " .  date("h:i:sa") . "</p>"; 
     
 }

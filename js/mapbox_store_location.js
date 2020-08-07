@@ -9,6 +9,11 @@ var scrollResults; //global Function to scroll to certain div, it is global & de
 var scroll_toTop;  //global Function to scroll the page to top, it is global & declared var out of IIFE to use in other scripts
 var removeMarker_and_Popup; //global Function to remove any markers and pop-ups, it is global & declared var out of IIFE to use in other scripts
 
+
+//object to hold geo data from Excel file {Geocoding_Process_Module/Slave_data.xlsx}, must be outside IIFE  to be seen in js/direction-api.js
+var dataConvert = {type: "FeatureCollection",features:[]};
+
+
 (function(){ //START IIFE (Immediately Invoked Function Expression)
 
 $(document).ready(function(){
@@ -156,22 +161,22 @@ console.log(data);
 			    //serverCity:window.cityX
 			},
             success: function(data) {
-				alert('Loading markers was OK');
+				alert('Loading markers from Excel file "/Slave_data.xlsx" was OK');
 				console.log(data);
 				
-				createObject_dataConvert(data);
+				createObject_dataConvert(data); //converts ajax success result array from {ajax/getCoordsListFromSlaveExcel.php} to geojson-OK format object (to build markers)
 				convert_Dataset_to_map(dataConvert);
 				
             },  //end success
 			error: function (error) {
 				
-			   alert('Loading mrkers failed');
+			   alert('Loading markers from Excel file "/Slave_data.xlsx "failed');
 
             }	
         });
 		
 		
-
+//NOT USED?????????
 //getting Dataset markers values from Dataset(initial several markers are created in Studio manually)
 // **************************************************************************************
 // **************************************************************************************
@@ -197,14 +202,30 @@ gets_Dataset_features_from_API = function(){ //we use here Function Expression t
 //gets_Dataset_features_from_API();
 
 
-//object to hold geo data from Excel file
-var dataConvert = {type: "FeatureCollection",features:[]};
-//adds a startting point
+
+
+
+//object to hold geo data from Excel file {Geocoding_Process_Module/Slave_data.xlsx}
+//var dataConvert = {type: "FeatureCollection",features:[]}; -> moves to global scope above,  must be outside IIFE  to be seen in js/direction-api.js
+
+//adds one starting hard-coded point var dataConvert{}
 dataConvert.features.push( {type: 'Feature', geometry: {type: 'Point', coordinates:[12.592224, 55.679681]},  properties: {title: 'Точка А', description: 'Copenhagen'}});
 
 
 
-function createObject_dataConvert(dataFromSuccessAjax){
+
+
+
+
+//converts ajax success result array from {ajax/getCoordsListFromSlaveExcel.php} to geojson-OK format object (to build markers)
+function createObject_dataConvert(dataFromSuccessAjax){ //dataFromSuccessAjax is data from ajax success callback
+
+    
+    //check if ../Geocoding_Process_Module/Slave_data.xlsx fie is not empty
+    if (typeof dataFromSuccessAjax == 'string'){ //checks if dataFromSuccessAjax is string. E.g if Excel file is empty/missing php script returns just error string.Otherwise if OK there should be other type, like Object
+		alert('Your Excel file "/Slave_data.xlsx" is empty, contains no addresses/coordinates');
+		return false;}
+	
 	//Object.assign(dataConvert.features, dataFromSuccessAjax /*['a','b','c']*/);
 	for( i = 0; i < dataFromSuccessAjax.length; i++){
 		var coorddd = dataFromSuccessAjax[i].geometry.coordinates;
@@ -221,8 +242,8 @@ function createObject_dataConvert(dataFromSuccessAjax){
          
 
 
-//function to convert data received from Dataset to markers on map
-function convert_Dataset_to_map(geojson){
+//function to convert data received from ajax to markers on map
+function convert_Dataset_to_map(geojson){ //{geojson} here is {var dataConvert{}}
 	
 	
      //removes all markers which are in array currentMarkers[] //useful when we added a new one and page makes a new reuest to Dataset Api

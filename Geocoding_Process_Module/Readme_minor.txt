@@ -1,0 +1,2 @@
+  #This is Geocoding module, separate index.php with button "Geocode it", on click takes data from Master Excel file (excel_file.xlsx),
+  #geocode it via cURL and mapBox Geocode Api and saves 2 columns (address and coords) to  Geocoding_Process_Module/Slave_data.xlsx

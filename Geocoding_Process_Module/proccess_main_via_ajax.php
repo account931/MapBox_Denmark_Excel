@@ -1,5 +1,5 @@
 <?php
-//Truncated vaiant of proccess_main_NOT_USED.php. See source code there.
+//Truncated variant of proccess_main_NOT_USED.php. See source code there.
 //accessed via ajax for better UI/UX, though can work directly after some amendments
 error_reporting(E_ALL);
 
@@ -88,7 +88,7 @@ if ( $xlsx = SimpleXLSX::parse('../excel_file.xlsx') ) {
 		    $i++;
     }
 	
-	//Save to slave Excel with Library 
+	//Save/write data to slave Excel file  with SimpleXLSXGen Library 
 	$xlsxG = SimpleXLSXGen::fromArray($newData );
     $xlsxG->saveAs('Slave_data.xlsx');
 

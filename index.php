@@ -50,7 +50,7 @@
        <div id="headX" class="jumbotron text-center gradient alert-success my-background head-style" style ='background-color:#2ba6cb;'> <!--#2ba6cb;-->
          <h1 id="h1Text"> <span id="textChange"> Test Locations</span></h1>
 		 <p style='font-size:0.8em;margin-top:2em;'>Все места (Hovested, Sjælland, Syddanmark, Midtjylland, Nordjylland) можно увидеть в списке Select или уменьшив масштаб</p>
-         <p><button class="btn"><a class="geo-panel-link" href="Geocoding_process/index.php">Go to Geocode panel </a></button></p>
+         <p><button class="btn"><a class="geo-panel-link" href="Geocoding_Process_Module/index.php">Go to Geocode panel </a></button></p>
 		 <span id="start_end_direction_info"></span> <!-- start/end coordinates for direction API-->	
          
 		  <!-- SELECT Dropdown for markers -->
