@@ -170,7 +170,7 @@ console.log(data);
             },  //end success
 			error: function (error) {
 				
-			   alert('Loading markers from Excel file "/Slave_data.xlsx "failed');
+			   alert('Loading markers from Excel file "/Slave_data.xlsx "failed There happens an error. Make sure your Excel files are closed(therefor may prevent reading)');
 
             }	
         });
@@ -222,7 +222,7 @@ function createObject_dataConvert(dataFromSuccessAjax){ //dataFromSuccessAjax is
 
     
     //check if ../Geocoding_Process_Module/Slave_data.xlsx fie is not empty
-    if (typeof dataFromSuccessAjax == 'string'){ //checks if dataFromSuccessAjax is string. E.g if Excel file is empty/missing php script returns just error string.Otherwise if OK there should be other type, like Object
+    if (typeof dataFromSuccessAjax != 'object'){ //checks if dataFromSuccessAjax is Object, if not, e.g String, stop further. E.g if Excel file is empty/missing php script returns just error string.Otherwise if OK there should be other type, like Object
 		alert('Your Excel file "/Slave_data.xlsx" is empty, contains no addresses/coordinates');
 		return false;}
 	

@@ -27,8 +27,16 @@
 				setTimeout(function(){
 				    $('.error-parent').hide(800); //hide gif loader
 		            $('.App').removeClass('blur');  //blur the background
-                    swal("Success", "Geocoding is done successfuly", "success");
-					$('#ajaxResults').stop().fadeOut("slow",function(){ $(this).html(data)}).fadeIn(2000);
+                    
+					if(data.status == "OK"){
+						swal("Success", "Geocoding is done successfuly", "success");
+						var text = "<br><p>" + data.text + "</p>";
+						text+= "<p><a href='" + data.url +  "' target='_blank'> Open route in Google maps </a></p>";
+					    $('#ajaxResults').stop().fadeOut("slow",function(){ $(this).html(text)}).fadeIn(2000);
+					} else {
+						swal("Failed!", "There happens an error. Check if cURL is installed or make sure your Excel files are closed(therefor may prevent reading)", "warning");
+
+					}
 
 			}, 2000);
 				
