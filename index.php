@@ -49,8 +49,8 @@
 
        <div id="headX" class="jumbotron text-center gradient alert-success my-background head-style" style ='background-color:#2ba6cb;'> <!--#2ba6cb;-->
          <h1 id="h1Text"> <span id="textChange"> Test Locations</span></h1>
-		 <p style='font-size:0.8em;margin-top:2em;'>Все места (Hovested, Sjælland, Syddanmark, Midtjylland, Nordjylland) можно увидеть в списке Select или уменьшив масштаб</p>
-         <p><button class="btn"><a class="geo-panel-link" href="Geocoding_Process_Module/index.php">Go to Geocode panel </a></button></p>
+		 <p style='font-size:0.8em;margin-top:2em;'>Hovested, Sjælland, Syddanmark, Midtjylland, Nordjylland</p>
+         <p><button class="btn fit-text"><a class="geo-panel-link" href="Geocoding_Process_Module/index.php">Go to Geocode panel to update places from Master Excel </a></button></p>
 		 <span id="start_end_direction_info"></span> <!-- start/end coordinates for direction API-->	
          
 		  <!-- SELECT Dropdown for markers -->
@@ -138,6 +138,7 @@
                   <div class="modal-header">
                        <button type="button" class="close" data-dismiss="modal">&times;</button>
                        <h4 class="modal-title">List of your Places Markers </h4>
+					   <p>If your places are not up-to-date, <a class="geo-panel-link" href="Geocoding_Process_Module/index.php">please go Geocode panel to update them  </a></p>
                   </div>
                   <div class="modal-body">
 				      <center>
@@ -221,6 +222,14 @@
 	               <!-----------------  Button with info------------------------------------>
 	   
 	   
+	   
+	              <!-----------------  Google maps Url ------------------------------------>
+	               <button id="gmaps" class="btn "style="font-size:17px; position:absolute;top:2.8em;right:0px;border:1px solid black;" title="GM route">
+	                   <img src="images/loaderX.gif"/>
+	               </button>    
+	              <!-----------------  Google maps Url ------------------------------------>
+				   
+				   
 				 
 				 <!---------------------------------- Link to show/hide markers--------------------------->
 				 <p class="upload"><a class="iphoneX" id="markerShowHide" href="#">Hide marks</a></p> <!-- Link to upload-->

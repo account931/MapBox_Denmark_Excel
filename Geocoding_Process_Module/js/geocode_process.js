@@ -45,7 +45,7 @@
 				$('.error-parent').hide(800);
 		        $('.App').removeClass('blur');  //blur the background
 				swal("Failed!", "There happens an error. Check if cURL is installed or make sure your Excel files are closed(therefor may prevent reading)", "warning");
-				$('#ajaxResults').stop().fadeOut("slow",function(){ $(this).html('Geocoding Failed')}).fadeIn(2000);
+				$('#ajaxResults').stop().fadeOut("slow",function(){ $(this).html('Geocoding Failed. There happens an error. Check if cURL is installed or make sure your Excel files are closed(therefor may prevent reading)')}).fadeIn(2000);
 
             }	
         });

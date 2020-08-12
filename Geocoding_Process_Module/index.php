@@ -47,7 +47,7 @@
 
        <div id="headX" class="jumbotron text-center gradient alert-success my-background head-style" style ='background-color:#60b1f0;color:white;'> <!--#2ba6cb;-->
          <h1 id="h1Text"> <span id="textChange"> Geocode places from Excel</span></h1>
-		 <p style='font-size:0.8em;margin-top:2em;'>Press button to start geocoding</p>	  
+		 <p style='font-size:0.8em;margin-top:2em;'>Press button to start geocoding. It will read your Master Excel file, get addresses, make geocoding and save result coords to slave Excel(clearing any prev Slave sheets data)</p>	  
 	   </div>
        
          <div class="wrapper grey App">

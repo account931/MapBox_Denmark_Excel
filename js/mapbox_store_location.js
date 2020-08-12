@@ -164,8 +164,9 @@ console.log(data);
 				alert('Loading markers from Excel file "/Slave_data.xlsx" was OK');
 				console.log(data);
 				
-				createObject_dataConvert(data); //converts ajax success result array from {ajax/getCoordsListFromSlaveExcel.php} to geojson-OK format object (to build markers)
+				createObject_dataConvert(data.features); //converts ajax success result array from {ajax/getCoordsListFromSlaveExcel.php} to geojson-OK format object (to build markers)
 				convert_Dataset_to_map(dataConvert);
+				$('#gmaps').html('<a href="' + data.urlText + '">GM</a>');
 				
             },  //end success
 			error: function (error) {
@@ -236,6 +237,7 @@ function createObject_dataConvert(dataFromSuccessAjax){ //dataFromSuccessAjax is
 		//dataConvert.features[] = {type: 'Feature', geometry: {type: 'Point', coordinates:coorddd},  properties: {title: 'Точка А (Отправка)', description: 'Copenhagen'}};
 	}
 	console.log(dataConvert);
+	console.log(dataFromSuccessAjax);
 }
 
 

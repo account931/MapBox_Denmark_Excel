@@ -118,6 +118,7 @@ div.bordered:empty {
 /* Mobile */
 @media screen and (max-width: 460px) {  
 .upload{right: 17%;} 
+.fit-text{font-size:0.4em;)
 }
 .upload a{ color:white;}
 
@@ -157,3 +158,4 @@ div.bordered:empty {
 
 .geo-panel-link{
     style="font-size:0.8em; color:white}
+	

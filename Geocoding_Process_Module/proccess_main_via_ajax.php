@@ -1,7 +1,9 @@
 <?php
 //Truncated variant of proccess_main_NOT_USED.php. See source code there.
 //accessed via ajax for better UI/UX, though can work directly after some amendments
+//namespace main;
 error_reporting(E_ALL);
+//ini_set('xdebug.max_nesting_level', 400);
 
 //uses https://github.com/shuchkin/simplexlsx to read Excel files
 include "../Library/SimpleXLSX.php";
@@ -17,8 +19,13 @@ include "../Credentials/php_api_credentials/api_credentials.php";
 //include Classes
 include "Classes/MakeGeocodeCurlRequest.php";
 include "Classes/Calc_Distance_And_Sort_By_Coords.php";
+include "Classes/Create_GoogleMaps_Link.php";
+
+
 use Classes\Geocoding\MakeGeocodeCurlRequest; //namespace for Class MakeGeocodeCurlRequest
 use Classes\SortingDistance\Calc_Distance_And_Sort_By_Coords;
+use Classes\LinkCreate\Create_GoogleMaps_Link ;
+
 
 
 
@@ -26,8 +33,6 @@ $text = ''; //text to contain general info, i.e "geo was done 21/08/1990 at 12.5
 $stuatus = "OK"; //status for ajax error handling
 $newData = array(); //Array to contain ((adrr,coords), (adrr,coords) from Geocode result. //Used as global var in class MakeGeocodeCurlRequest()
 	   
-	   
-
 
 //****************************************************************************
 //copy data from  Master Excel file ('../excel_file.xlsx')  to Slave Excel and save it as 'Slave_data.xls' to the same folder where this script is located
@@ -48,11 +53,13 @@ if ( $xlsx = SimpleXLSX::parse('../excel_file.xlsx') ) {
 	
 	//Save/write data to slave Excel file  with SimpleXLSXGen Library 
 	$xlsxG = SimpleXLSXGen::fromArray($newData );
-    $xlsxG->saveAs('Slave_data.xlsx');
+    if($xlsxG->saveAs('Slave_data.xlsx')){
 
     //fclose($fp);
 	$text = "Master Excel file data was succesfully copied and geocoded to Slave Excel " . date("Y-m-d") . " at " .  date("h:i:sa"); 
-	
+	} else {
+		$text = 'Copying and geocoding to Slave Excel Failed. Make sure Excel files are closed and u have installed CURL ';
+	}
 	
 	//echo json_encode($text);
     
@@ -72,76 +79,15 @@ if ( $xlsx = SimpleXLSX::parse('../excel_file.xlsx') ) {
 
 
 //*************************************************************
-//sorting coords by distance (after geocoding is done and values are in 'Slave_data.xlsx')
-$temoArrayWithCoordsAdresses = array(); //temp array to hold (adress, coords, distance in km(from START POINT)), will be used for usort() by distance
 $Start_Point_Copenhagen = [12.592224, 55.679681]; //Start Point
 
-
-	   
-	   
-	   
-
-if ( $xlsx = SimpleXLSX::parse('Slave_data.xlsx') ) {
-    $masterExceldata =$xlsx->rows();   //gets the Master Excel file data via SimpleXLSX.php Library
-	
-	$newData = array();
-	$i = 0;
-    foreach ($masterExceldata as $fields) {
-
-		    
-		    //getting address together from several columns 
-		    $coordsColumn = $fields[1] ; //gets "9.267621, 55.430676"
-			$addressColumn = str_replace("ø","o", $fields[0]); //replace danish{ø} with normal o
-			$addressColumn = rawurlencode($addressColumn); //MegaFix ->  replace blankspace in 
-			
-			$colCoord = explode(",", $coordsColumn); //explode string "9.267621, 55.430676" to array
-			
-			//calc the distance in km between args. From included Class
-			$distance = Calc_Distance_And_Sort_By_Coords::calcDistance($Start_Point_Copenhagen[0], $Start_Point_Copenhagen[1], $colCoord[0], $colCoord[1], "K") ;
-
-            array_push($temoArrayWithCoordsAdresses, array($addressColumn, $coordsColumn, 'distance' => $distance)); //array(Volgade 8, "9.267621, 55.430676", 120km);
-			
-		 $i++;
-	}
-		
-		//Array of coords before sorting
-        /*echo "<pre>";		
-		print_r($temoArrayWithCoordsAdresses);	
-		echo "</pre>";*/
-		
-		
-		//---------
-
-		
+//sorting coords by distance (after geocoding is done and values are in 'Slave_data.xlsx'). Sort and then create Google map link with direction
+$v = new Create_GoogleMaps_Link();
+$urlText = $v->createLink($Start_Point_Copenhagen ); //args(arrayFromExcel, startPoint[alt, lon])
 
 
-	  //my custom function to sort array by distance, from short to longer distances. Used in usort() 
-	  function myCompare_Distances($a, $b) {
-          if($a['distance'] > $b['distance']) return 1;
-          elseif($a['distance'] < $b['distance']) return -1;
-          else return 0;
-      }
-   
-       uasort($temoArrayWithCoordsAdresses, 'myCompare_Distances'); //arg (array to sort, myCustom Function)
-	   //usort($temoArrayWithCoordsAdresses, ['Calc_Distance_And_Sort_By_Coords','myCompare_Distances']);
 
-		//Array of coords after sorting by distance 
-        /*echo "<br><pre>";		
-		print_r($temoArrayWithCoordsAdresses);	
-		echo "</pre>";*/	
-} else {
-	$stuatus = 'failed';
-}
-
-//form the URL for Google maps directions
-$urlText = "https://www.google.com.ua/maps/dir/";
-for ($i = 0; $i < count($temoArrayWithCoordsAdresses); $i++){
-	//explode and reverse lat,long for Google maps
-	$z = explode(",", $temoArrayWithCoordsAdresses[$i][1]);
-	$urlText.= $z[1] . "," . $z[0] . "/";
-}
-
-//form whra to jsin_encode
+//form the Script Respones, what to json_encode
 $response = array(); 
 $response ['status'] = $stuatus; //status for ajax error handling
 $response ['text'] = $text;
