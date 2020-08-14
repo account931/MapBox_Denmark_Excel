@@ -1,5 +1,5 @@
 <?php
-//this class is 
+//this class is to calc distance between 2 coords
 
 namespace Classes\SortingDistance; 
 

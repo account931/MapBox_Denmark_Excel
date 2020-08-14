@@ -159,3 +159,6 @@ div.bordered:empty {
 .geo-panel-link{
     style="font-size:0.8em; color:white}
 	
+#gmaps{
+	-webkit-transition:  4.5s linear;  transition:  4.5s linear;
+}

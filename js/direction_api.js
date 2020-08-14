@@ -245,10 +245,10 @@ map.addLayer({
 		
 	    if ( $("#LineStringShowHide").attr('value') == 'Show Route Line'){
 			 $("#LineStringShowHide").attr('value', 'Hide Route Line');
-			 map.flyTo({/*center: e.features[0].geometry.coordinates,*/ zoom:7});
+			 map.flyTo({/*center: e.features[0].geometry.coordinates,*/center: window.START_POINT_from_SETTING, zoom:7});
 			 
 			 var startZ = [12.592224, 55.679681];  // NOT USED????
-             var endZ = [11.720648, 55.466004];	 
+             var endZ = [11.720648, 55.466004];	   // NOT USED????
              //getRoute(startZ, endZ);
 			 
 			 //dataConvert is global scope var from js/mapbox_store_location.js. Stores all markers from excel file {Geocoding_Process_Module/Slave_data.xlsx}. To be in global scope must be out of IIFE there

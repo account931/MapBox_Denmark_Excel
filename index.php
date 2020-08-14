@@ -5,12 +5,11 @@
     <head>
       <meta charset="utf-8">
       <meta http-equiv="Content-Type" content="text/html">
-      <meta name="description" content="MapBox Store Location" />
-      <meta name="keywords" content="MapBox Store Location">
-      <title>MapBox Store Location </title>
+      <meta name="description" content="MapBox Store Excel Location" />
+      <meta name="keywords" content="MapBox Store Excel Location">
+      <title>MapBox Store Excel Location </title>
   
-      <!--Favicon-->
-      <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+ 
 
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> <!-- fa-fa images library-->
@@ -27,8 +26,9 @@
 	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	  <script src="Credentials/api_access_token.js"></script><!--  MapBox Access token -->
+	  <script src="config_setting/start_point_js.js"></script> <!-- setting for JS Start Point Coords-->  
       <script charset="utf-8" src="js/mapbox_store_location.js"></script><!--  Core Mapbox JS -->
-	  <script src="js/direction_api.js"></script> <!-- draw route JS-->  
+	  <script src="js/direction_api.js"></script> <!-- draw route, MapBox Direction API JS-->  
 	  <script src="js/changeStyleTheme.js"></script> <!-- change wallpapers,changeStyleTheme JS-->  
 
 	 
@@ -49,7 +49,9 @@
 
        <div id="headX" class="jumbotron text-center gradient alert-success my-background head-style" style ='background-color:#2ba6cb;'> <!--#2ba6cb;-->
          <h1 id="h1Text"> <span id="textChange"> Test Locations</span></h1>
-		 <p style='font-size:0.8em;margin-top:2em;'>Hovested, Sjælland, Syddanmark, Midtjylland, Nordjylland</p>
+		 <p style='font-size:0.8em;margin-top:2em;'>Hovested, Sjælland, Syddanmark, Midtjylland, Nordjylland</br>
+		     cURL is needed for GeoPanel only(requests to geo Api)
+		 </p>
          <p><button class="btn fit-text"><a class="geo-panel-link" href="Geocoding_Process_Module/index.php">Go to Geocode panel to update places from Master Excel </a></button></p>
 		 <span id="start_end_direction_info"></span> <!-- start/end coordinates for direction API-->	
          
@@ -137,7 +139,8 @@
               <div class="modal-content">
                   <div class="modal-header">
                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                       <h4 class="modal-title">List of your Places Markers </h4>
+                       <h4 class="modal-title">List of your Places Markers </h4><br>
+					   <p>Loads markers from Slave Excel file. Data in Slave Excel file is updated in geocoding Panel. </p>
 					   <p>If your places are not up-to-date, <a class="geo-panel-link" href="Geocoding_Process_Module/index.php">please go Geocode panel to update them  </a></p>
                   </div>
                   <div class="modal-body">
@@ -193,7 +196,7 @@
 				  
 				  
 				  <!-----------------  Button to show/hide MapBox GL LineString ------------------------->
-	              <input type="button" class="btn" value="Show Route Line" id="LineStringShowHide" style="position:absolute;top:0em;left:3.3em; border:1px solid black;" title="LineString"/>
+	              <input type="button" class="btn" value="Show Route Line" id="LineStringShowHide" style="position:absolute;top:0em;left:3.3em; border:1px solid black;" title="Show Route Line for all markers"/>
 	              <!-----------------  Button to show/hide MapBox GL LineString------------------------->
 				  
 				  

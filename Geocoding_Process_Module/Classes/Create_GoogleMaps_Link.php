@@ -18,14 +18,15 @@ class Create_GoogleMaps_Link {
   // **************************************************************************************
   // **                                                                                  **
   // **                                                                                  **
-  public  function createLink($Start_Point_Copenhagen) {
+  public  function createLink($Start_Point_Copenhagen, $masterExceldata) {
 	  
       $temoArrayWithCoordsAdresses = array(); //temp array to hold (adress, coords, distance in km(from START POINT)), will be used for usort() by distance
-      global $stuatus; //use global var from 'proccess_main_via_ajax.php
+      //global $stuatus; //use global var from 'proccess_main_via_ajax.php
    
+      //add 1 start point to array (hard-coded)
+      array_push($temoArrayWithCoordsAdresses, array('Copenhagen',implode(",", $Start_Point_Copenhagen) , 'distance' => 0));
 
-      if ( $xlsx = SimpleXLSX::parse('Slave_data.xlsx') ) {
-          $masterExceldata =$xlsx->rows();   //gets the Master Excel file data via SimpleXLSX.php Library
+      
 	
 	      $newData = array();
 	      $i = 0;
@@ -71,11 +72,7 @@ class Create_GoogleMaps_Link {
 	         $urlText.= $z[1] . "," . $z[0] . "/";
          }
 	
-    } else {
-	    $stuatus = 'failed';
-		$urlText = 'failed';
-    }
-
+  
     
 
     return $urlText;

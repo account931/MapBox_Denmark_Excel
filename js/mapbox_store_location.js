@@ -28,7 +28,7 @@ var DIRECTION_MODE = false;	 //mine, activated in checkbox switch top left
 //Creats map with center
  map = new mapboxgl.Map({
 container: 'map', // container id
-center: [12.592224, 55.679681], // starting position [lng, lat] 
+center: window.START_POINT_from_SETTING, //var from 'start_point_js.js' //[12.592224, 55.679681], // starting position [lng, lat] 
 zoom: 9, // starting zoom
 style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
 //style: 'mapbox://styles/mapbox/satellite-v9'
@@ -210,7 +210,7 @@ gets_Dataset_features_from_API = function(){ //we use here Function Expression t
 //var dataConvert = {type: "FeatureCollection",features:[]}; -> moves to global scope above,  must be outside IIFE  to be seen in js/direction-api.js
 
 //adds one starting hard-coded point var dataConvert{}
-dataConvert.features.push( {type: 'Feature', geometry: {type: 'Point', coordinates:[12.592224, 55.679681]},  properties: {title: 'Точка А', description: 'Copenhagen'}});
+dataConvert.features.push( {type: 'Feature', geometry: {type: 'Point', coordinates: window.START_POINT_from_SETTING /*[12.592224, 55.679681]*/ },  properties: {title: 'Точка А', description: 'Copenhagen'}});
 
 
 
