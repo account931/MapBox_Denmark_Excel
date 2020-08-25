@@ -35,20 +35,59 @@ style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
 });
 
 
+//Add MapBox Geocoder plug-in to map -> https://docs.mapbox.com/mapbox-gl-js/example/mapbox-gl-geocoder/
+map.addControl(
+   new MapboxGeocoder({
+      accessToken: mapboxgl.accessToken, //must-have
+      mapboxgl: mapboxgl
+    })
+);
+
 // Add zoom and rotation controls to the map.
 map.addControl(new mapboxgl.NavigationControl());
 
 
 
 //Geolocation button control to add to map. It DOES NOT WORK as => Geolocation support for modern browsers including Chrome requires sites to be served over HTTPS.If geolocation support is not available, the GeolocateControl will not be visible.
-map.addControl(new mapboxgl.GeolocateControl({
-    positionOptions: {
-        enableHighAccuracy: true
-    },
-    trackUserLocation: true,  //If  true the Geolocate Control becomes a toggle button and when active the map will receive updates to the user's location as it changes. I.e monitors when user changes location
-    //showUserLocation: true //by default it is true, show a dot where the user's location is
+map.addControl(
+    new mapboxgl.GeolocateControl({
+        positionOptions: {
+            enableHighAccuracy: true
+        },
+        trackUserLocation: true,  //If  true the Geolocate Control becomes a toggle button and when active the map will receive updates to the user's location as it changes. I.e monitors when user changes location
+        //showUserLocation: true //by default it is true, show a dot where the user's location is
 	}));
 //END Geolocation button control to add to map
+
+
+
+
+//Add Geocoder Search Bar without a map (it autocompletes any address in the world) -> https://docs.mapbox.com/mapbox-gl-js/example/mapbox-gl-geocoder-no-map/
+var geocoder = new MapboxGeocoder({
+    accessToken: mapboxgl.accessToken,
+    types: 'country,region,place,address,postcode,locality,neighborhood' //    types: 'country,region,place,address,postcode,locality,neighborhood'
+});
+ 
+geocoder.addTo('#geocoder');
+//End Add Geocoder Search Bar without a map (it autocompletes any address in the world) -> https://docs.mapbox.com/mapbox-gl-js/example/mapbox-gl-geocoder-no-map/
+
+
+
+
+
+//Add  to map "Display driving directions", from A to B -> https://docs.mapbox.com/mapbox-gl-js/example/mapbox-gl-directions/. HAS CSS CONFLICT WITH GEOCODER PLUG-IN
+/*map.addControl(
+    new MapboxDirections({
+    accessToken: mapboxgl.accessToken
+    }),
+'top-left'
+);
+*/
+//End Add "Display driving directions", from A to B -> https://docs.mapbox.com/mapbox-gl-js/example/mapbox-gl-directions/
+
+
+
+
 
 
 //hard-Coded hand-made markers object 
@@ -161,7 +200,8 @@ console.log(data);
 			    //serverCity:window.cityX
 			},
             success: function(data) {
-				alert('Loading markers from Excel file "/Slave_data.xlsx" was OK');
+				//alert('Loading markers from Excel file "/Slave_data.xlsx" was OK');
+				swal("Success", "Loading markers from Excel file '/Slave_data.xlsx' was OK", "success");
 				console.log(data);
 				
 				createObject_dataConvert(data.features); //converts ajax success result array from {ajax/getCoordsListFromSlaveExcel.php} to geojson-OK format object (to build markers)
@@ -171,7 +211,8 @@ console.log(data);
             },  //end success
 			error: function (error) {
 				
-			   alert('Loading markers from Excel file "/Slave_data.xlsx "failed There happens an error. Make sure your Excel files are closed(therefor may prevent reading)');
+			   //alert('Loading markers from Excel file "/Slave_data.xlsx "failed There happens an error. Make sure your Excel files are closed(therefor may prevent reading)');
+               swal("Failed!", "Loading markers from Excel file '/Slave_data.xlsx' failed There happens an error. Make sure your Excel files are closed(therefor may prevent reading)", "warning");
 
             }	
         });
@@ -224,7 +265,9 @@ function createObject_dataConvert(dataFromSuccessAjax){ //dataFromSuccessAjax is
     
     //check if ../Geocoding_Process_Module/Slave_data.xlsx fie is not empty
     if (typeof dataFromSuccessAjax != 'object'){ //checks if dataFromSuccessAjax is Object, if not, e.g String, stop further. E.g if Excel file is empty/missing php script returns just error string.Otherwise if OK there should be other type, like Object
-		alert('Your Excel file "/Slave_data.xlsx" is empty, contains no addresses/coordinates');
+		//alert('Your Excel file "/Slave_data.xlsx" is empty, contains no addresses/coordinates');
+		swal("Warning!", "Your Slave Excel file '/Slave_data.xlsx' seems to be empty and contains no addresses/coordinates. Please, make sure that Master Excel contains data and run Geocoding process at your Geocoding Panel", "warning");
+
 		return false;}
 	
 	//Object.assign(dataConvert.features, dataFromSuccessAjax /*['a','b','c']*/);
@@ -286,9 +329,13 @@ function convert_Dataset_to_map(geojson){ //{geojson} here is {var dataConvert{}
 	   currentMarkers.push(markerZXX); //adds a currentle created marker to array in order to be able to remove them all from map
 	   
 	   
-	   $('#techInfo').html('<h3>' + marker.properties.title + '</h3>' + '<p>' + marker.properties.description + '</p>') ;
+	   //$('#techInfo').html('<h3>' + marker.properties.title + '</h3>' + '<p>' + marker.properties.description + '</p>') ;
     });
 	
+	//html the 1st marker from geojson (it is a starting point - CPH)
+	$('#techInfo').html('<h3>' + geojson.features[0].properties.title + '</h3>' + '<p>' + geojson.features[0].properties.description + '</p>') ;
+
+		   
     //Function creates list of markers in Modal id="myModalInfo" -> <p id="list_of_markers">
 	createList_of_markers_modal(geojson); 
 	
@@ -397,7 +444,7 @@ map.on('click', function (e) {  //mousemove
 
 
 
-
+//NOT USED HERE??????????
 //gets distance details between two points(does not draw route!!!!!!)
 function getMatrix(){
 	// send  data  to  PHP handler  ************ 

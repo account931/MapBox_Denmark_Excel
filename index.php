@@ -18,8 +18,8 @@
 	  <link rel="stylesheet" type="text/css" media="all" href="css/infoBox.css">  <!-- infoBox CSS-->
 	  <link rel="stylesheet" type="text/css" media="all" href="css/preloader.css">  <!-- Preloader CSS-->
 	  
-	 <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js'></script> <!-- Mapbox L JS -->
-     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css' rel='stylesheet' /> <!-- Mapbox L JS -->
+	 <script src='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js'></script> <!-- Mapbox GL JS -->
+     <link href='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css' rel='stylesheet' /> <!-- Mapbox GL JS -->
 	 
 	 
 
@@ -30,6 +30,22 @@
       <script charset="utf-8" src="js/mapbox_store_location.js"></script><!--  Core Mapbox JS -->
 	  <script src="js/direction_api.js"></script> <!-- draw route, MapBox Direction API JS-->  
 	  <script src="js/changeStyleTheme.js"></script> <!-- change wallpapers,changeStyleTheme JS-->  
+	  
+	  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script> <!--Sweet Alert JS-->
+	  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css"> <!--Sweet Alert CSS -->
+
+	  
+	  <!--MapBox geocoder plug-in -->
+	  <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.min.js"></script>
+      <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.css" type="text/css"/>
+      <!--MapBox geocoder plug-in -->
+	  
+	  
+	  <!-- BELOW Plug-in HAS CSS CONFLICT WITH GEOCODER PLUG-IN-->
+	  <!--MapBox Display driving directions, i.e from A to B-> https://docs.mapbox.com/mapbox-gl-js/example/mapbox-gl-directions -->
+	  <!--<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.js"></script>-->
+      <!--<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.css" type="text/css"/>-->
+      <!--MapBox Display driving directions, i.e from A to B-> https://docs.mapbox.com/mapbox-gl-js/example/mapbox-gl-directions -->
 
 	 
 	  <meta name="viewport" content="width=device-width" />
@@ -50,7 +66,7 @@
        <div id="headX" class="jumbotron text-center gradient alert-success my-background head-style" style ='background-color:#2ba6cb;'> <!--#2ba6cb;-->
          <h1 id="h1Text"> <span id="textChange"> Test Locations</span></h1>
 		 <p style='font-size:0.8em;margin-top:2em;'>Hovested, Sjælland, Syddanmark, Midtjylland, Nordjylland</br>
-		     cURL is needed for GeoPanel only(requests to geo Api)
+		     
 		 </p>
          <p><button class="btn fit-text"><a class="geo-panel-link" href="Geocoding_Process_Module/index.php">Go to Geocode panel to update places from Master Excel </a></button></p>
 		 <span id="start_end_direction_info"></span> <!-- start/end coordinates for direction API-->	
@@ -106,8 +122,17 @@
 					  
 					  
 					  
-
 					  
+					  
+					 <!-------------- Geocoder Search Bar without a map (it autocompletes any address in the world) ----------------->
+                     <div class="col-sm-12 col-xs-12">
+					     <hr style="width:90%; height:3em; color:black;margin-top:5em;"/>
+					     <h2>Geocoder Search Bar</h2> <p>Works without a map (it autocompletes any address in the world)</p>
+					 </div>
+					 <div id="geocoder"></div>
+					 <!-------------- End Geocoder Search Bar without a map (autocomplete any address in the world) ----------------->
+
+				   
 				   
 			      </div>  <!-- END class="row row1"> -->
 				  
@@ -141,6 +166,7 @@
                        <button type="button" class="close" data-dismiss="modal">&times;</button>
                        <h4 class="modal-title">List of your Places Markers </h4><br>
 					   <p>Loads markers from Slave Excel file. Data in Slave Excel file is updated in geocoding Panel. </p>
+					   <p>cURL is needed for GeoPanel only(requests to geo Api)</p>
 					   <p>If your places are not up-to-date, <a class="geo-panel-link" href="Geocoding_Process_Module/index.php">please go Geocode panel to update them  </a></p>
                   </div>
                   <div class="modal-body">
@@ -235,7 +261,7 @@
 				   
 				 
 				 <!---------------------------------- Link to show/hide markers--------------------------->
-				 <p class="upload"><a class="iphoneX" id="markerShowHide" href="#">Hide marks</a></p> <!-- Link to upload-->
+				 <p class="upload"><a class="iphoneX white-text" id="markerShowHide" href="#">Hide marks</a></p> <!-- Link to hide/show marks-->
 				  
 				  
 				  

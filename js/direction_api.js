@@ -271,7 +271,7 @@ map.addLayer({
 			$("#LineStringShowHide").attr('value', 'Show Route Line');
 			map.flyTo({/*center: e.features[0].geometry.coordinates,*/ zoom:9});
 			//remove Direction Api //clears Direction API line layer(line route)
-		 if (map.getLayer('end')) {
+		 if (map.getLayer('route')) {
 			  map.removeLayer('route'); //to clear Direction Api Layer, u have to remove both Layer and Source. Layer must be removed FIRST!!!!!!!!!!!!!
 			  map.removeSource('route');
               map.removeLayer('end'); 

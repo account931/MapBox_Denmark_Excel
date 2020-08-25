@@ -113,6 +113,7 @@ div.bordered:empty {
 	cursor:pointer;
 	font-size:1em;
 	text-color:white;
+	color:white;
 }
 
 /* Mobile */
@@ -162,3 +163,5 @@ div.bordered:empty {
 #gmaps{
 	-webkit-transition:  4.5s linear;  transition:  4.5s linear;
 }
+
+.white-text{color:white;}
